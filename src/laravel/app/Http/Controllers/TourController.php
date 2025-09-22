@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreTourRequest;
+use App\Http\Requests\UpdateTourRequest;
+use App\Models\Tour;
+
+class TourController extends Controller
+{
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $tours = Tour::all();
+        return response($tours);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreTourRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Tour $tour)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateTourRequest $request, Tour $tour)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Tour $tour)
+    {
+        //
+    }
+}
