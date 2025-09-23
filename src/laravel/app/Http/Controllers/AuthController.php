@@ -46,20 +46,19 @@ class AuthController extends Controller
                 ->withInput();
         }
 
-       // Находим роль клиента
-$clientRole = Role::where('ID_role', 2)->first();
+        // Находим роль клиента
+        $clientRole = Role::where('ID_role', 2)->first();
 
-if (!$clientRole) {
-    // Создаем роль клиента если не существует
-    $clientRole = Role::create([
-        'Role' => 'client', // ← Добавьте это поле
-        'role_name' => 'client', 
-        'description' => 'Обычный клиент'
-    ]);
-}
+        if (!$clientRole) {
+            // Создаем роль клиента если не существует
+            $clientRole = Role::create([
+                'Role' => 'client',
+                'role_name' => 'client', 
+                'description' => 'Обычный клиент'
+            ]);
+        }
 
-        // Создаем клиента БЕЗ персональных данных (паспортных)
-        // ID_personnel будет NULL до покупки тура
+        // Создаем клиента
         $client = Client::create([
             'login' => $request->username,
             'email' => $request->email,
@@ -67,11 +66,11 @@ if (!$clientRole) {
             'password' => Hash::make($request->password),
             'registration_date' => now(),
             'ID_role' => $clientRole->ID_role,
-            'ID_personnel' => null // Персональные данные будут добавлены позже при бронировании
+            'ID_personnel' => null
         ]);
 
         Auth::login($client);
-        return redirect()->route('home')->with('success', 'Регистрация прошла успешно!');
+        return redirect()->route('main')->with('success', 'Регистрация прошла успешно!');
     }
 
     // Показать форму авторизации
@@ -95,18 +94,13 @@ if (!$clientRole) {
         // Пытаемся авторизовать клиента по логину
         if (Auth::attempt(['login' => $credentials['login'], 'password' => $credentials['password']])) {
             $request->session()->regenerate();
-            return redirect()->intended(route('home'))->with('success', 'Вы успешно авторизовались!');
+            return redirect()->intended(route('main'))->with('success', 'Вы успешно авторизовались!');
         }
 
         // Если авторизация по логину не удалась, пробуем по email
         if (Auth::attempt(['email' => $credentials['login'], 'password' => $credentials['password']])) {
             $request->session()->regenerate();
-            return redirect()->intended(route('home'))->with('success', 'Вы успешно авторизовались!');
-        }
-
-            if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended(route('main'));
+            return redirect()->intended(route('main'))->with('success', 'Вы успешно авторизовались!');
         }
 
         // Если авторизация не удалась
@@ -121,6 +115,6 @@ if (!$clientRole) {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('home')->with('success', 'Вы вышли из системы.');
+        return redirect()->route('main')->with('success', 'Вы вышли из системы.');
     }
 }

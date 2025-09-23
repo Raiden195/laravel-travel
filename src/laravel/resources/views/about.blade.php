@@ -10,24 +10,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <div class="name">TRALALELO TRALALA</div>
-            <nav>
-                <ul>
-                    <li><a href="{{ route('main') }}">Главная</a></li>
-                    <li><a href="{{ route('hottour') }}">Горящие туры</a></li>
-                    <li><a href="{{ route('tour') }}">Поиск туров</a></li>
-                    <li><a href="{{ route('about') }}" class="active">О нас</a></li>
-                    <li><a href="{{ route('contact') }}">Контакты</a></li>
-                </ul>
-            </nav>
+   <header>
+    <div class="header-container">
+        <div class="name">TRALALELO TRALALA</div>
+        <nav>
+            <ul>
+                <li><a href="{{ route('main') }}" class="active">Главная</a></li>
+                <li><a href="{{ route('hottour') }}">Горящие туры</a></li>
+                <li><a href="{{ route('tour') }}">Поиск туров</a></li>
+                <li><a href="{{ route('about') }}">О нас</a></li>
+                <li><a href="{{ route('contact') }}">Контакты</a></li>
+            </ul>
+        </nav>
+        
+        @auth
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="login-button" style="background: none; border: none; color: inherit; cursor: pointer; font: inherit; display: flex; align-items: center;">
+                    <img src="{{ asset('images/user.png') }}" alt="Выйти">
+                    Выйти ({{ Auth::user()->login }})
+                </button>
+            </form>
+        @else
             <a href="{{ route('login') }}" class="login-button">
                 <img src="{{ asset('images/user.png') }}" alt="Войти">
                 Войти
             </a>
-        </div>
-    </header>
+        @endauth
+    </div>
+</header>
   
     <main>
         <section class="hero-about">
@@ -99,7 +110,7 @@
             <div class="booking-steps">
                 <div class="step">
                     <div class="step-image">
-                        <img src="" alt="Изучите наши предложения">
+                        <img src="images/blog1.png" alt="Изучите наши предложения">
                     </div>
                     <div class="step-text">
                         <h3>Изучите наши предложения на сайте или свяжитесь с нашим менеджером для индивидуального подбора тура</h3>
@@ -108,7 +119,7 @@
 
                 <div class="step reversed">
                     <div class="step-image">
-                        <img src="" alt="Заполните форму или позвоните">
+                        <img src="images/blog2.png" alt="Заполните форму или позвоните">
                     </div>
                     <div class="step-text">
                         <h3>Заполните форму на сайте или позвоните нам по телефону, чтобы рассказать о своих пожеланиях</h3>
@@ -117,7 +128,7 @@
 
                 <div class="step">
                     <div class="step-image">
-                        <img src="" alt="Наш менеджер свяжется с вами">
+                        <img src="images/blog3.png" alt="Наш менеджер свяжется с вами">
                     </div>
                     <div class="step-text">
                         <h3>Наш менеджер свяжется с вами, чтобы обсудить детали поездки, ответить на ваши вопросы и предложить лучшие варианты</h3>
@@ -126,7 +137,7 @@
 
                 <div class="step reversed">
                     <div class="step-image">
-                        <img src="" alt="Оформление бронирования">
+                        <img src="images/blog4.png" alt="Оформление бронирования">
                     </div>
                     <div class="step-text">
                         <h3>После согласования всех деталей мы оформим бронирование и предоставим вам все необходимые документы</h3>
@@ -135,7 +146,7 @@
 
                 <div class="step">
                     <div class="step-image">
-                        <img src="" alt="Собирайте чемодан">
+                        <img src="images/blog5.png" alt="Собирайте чемодан">
                     </div>
                     <div class="step-text">
                         <h3>С TRALALELO TRALALA вам остается только собрать чемодан и отправиться навстречу новым приключениям!</h3>

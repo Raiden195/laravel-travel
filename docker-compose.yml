@@ -8,8 +8,8 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./src/laravel/:/var/www/html
-    working_dir: /var/www/html
+      - ./src/laravel/:/var/www/html/laravel/:rw
+    working_dir: /var/www/html/laravel/
 # Остальные строки не изменяйте.
   mysql:
     container_name: travel-mysql

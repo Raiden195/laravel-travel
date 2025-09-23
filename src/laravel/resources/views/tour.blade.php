@@ -13,23 +13,34 @@
 </head>
 <body>
     <header>
-        <div class="header-container">
-            <div class="name">TRALALELO TRALALA</div>
-            <nav>
-                <ul>
-                    <li><a href="{{ route('main') }}">Главная</a></li>
-                    <li><a href="{{ route('hottour') }}">Горящие туры</a></li>
-                    <li><a href="{{ route('tour') }}" class="active">Поиск туров</a></li>
-                    <li><a href="{{ route('about') }}">О нас</a></li>
-                    <li><a href="{{ route('contact') }}">Контакты</a></li>
-                </ul>
-            </nav>
+    <div class="header-container">
+        <div class="name">TRALALELO TRALALA</div>
+        <nav>
+            <ul>
+                <li><a href="{{ route('main') }}" class="active">Главная</a></li>
+                <li><a href="{{ route('hottour') }}">Горящие туры</a></li>
+                <li><a href="{{ route('tour') }}">Поиск туров</a></li>
+                <li><a href="{{ route('about') }}">О нас</a></li>
+                <li><a href="{{ route('contact') }}">Контакты</a></li>
+            </ul>
+        </nav>
+        
+        @auth
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="login-button" style="background: none; border: none; color: inherit; cursor: pointer; font: inherit; display: flex; align-items: center;">
+                    <img src="{{ asset('images/user.png') }}" alt="Выйти">
+                    Выйти ({{ Auth::user()->login }})
+                </button>
+            </form>
+        @else
             <a href="{{ route('login') }}" class="login-button">
                 <img src="{{ asset('images/user.png') }}" alt="Войти">
                 Войти
             </a>
-        </div>
-    </header>
+        @endauth
+    </div>
+</header>
 
     <main>
         <section class="search-section">
@@ -149,6 +160,119 @@
                 <button class="submit-button">Подобрать тур</button>
             </div>
         </section>
+
+        <div class="container-tour-card">
+    <div class="row">
+        @php
+            $tours = [
+                [
+                    'image' => 'images/turkey.png',
+                    'rating' => '⭐⭐⭐⭐☆',
+                    'title' => 'Sunny Shore Resort',
+                    'country' => 'Турция',
+                    'icons_color' => 'green',
+                    'price' => '117 000'
+                ],
+                [
+                    'image' => 'images/tai.png',
+                    'rating' => '⭐⭐⭐⭐☆',
+                    'title' => 'Fairy Cliff Retreat',
+                    'country' => 'Таиланд',
+                    'icons_color' => 'pink',
+                    'price' => '217 000'
+                ],
+                [
+                    'image' => 'images/maldiv.png',
+                    'rating' => '⭐⭐⭐⭐⭐',
+                    'title' => 'Dream Rock Villas',
+                    'country' => 'Мальдивы',
+                    'icons_color' => 'green',
+                    'price' => '557 000'
+                ],
+                [
+                    'image' => 'images/kipr.png',
+                    'rating' => '⭐⭐⭐☆☆',
+                    'title' => 'Starry Comfort Boutique',
+                    'country' => 'Кипр',
+                    'icons_color' => 'pink',
+                    'price' => '397 000'
+                ],
+                [
+                    'image' => 'images/greece.png',
+                    'rating' => '⭐⭐⭐⭐⭐',
+                    'title' => 'Enchanted Forest Lodge',
+                    'country' => 'Греция',
+                    'icons_color' => 'green',
+                    'price' => '250 000'
+                ],
+                [
+                    'image' => 'images/indones.png',
+                    'rating' => '⭐☆☆☆☆',
+                    'title' => 'Crystal Spring Spa',
+                    'country' => 'Индонезия',
+                    'icons_color' => 'pink',
+                    'price' => '97 000'
+                ]
+            ];
+        @endphp
+
+        @foreach($tours as $tour)
+        <div class="tour-card">
+            <img src="{{ $tour['image'] }}" alt="Тур">
+            <div class="rating">{{ $tour['rating'] }}</div>
+            <div class="title-tour">{{ $tour['title'] }}</div>
+            <div class="country">{{ $tour['country'] }}</div>
+            <div class="icons">
+                <div>
+                    <span class="icon-container">
+                        <span class="icon-wrapper blue"><img src="images/food.png" alt="all" title="Питание"></span> All
+                    </span>
+                    <span class="icon-container">
+                        <span class="icon-wrapper blue"><img src="images/plane.png" alt="plane" title="Расстояние от аэропорта"></span> 5 км
+                    </span>
+                    <span class="icon-container">
+                        <span class="icon-wrapper blue"><img src="images/beach.png" alt="sea" title="Расстояние от пляжа"></span> 1 км
+                    </span>
+                </div>
+                <div> 
+                    <span class="icon-wrapper {{ $tour['icons_color'] }}"><img src="images/transfer.png" alt="bus" title="Трансфер включен"></span>
+                    <span class="icon-wrapper {{ $tour['icons_color'] }}"><img src="images/plane.png" alt="fly" title="Перелет включен"></span>
+                    <span class="icon-wrapper {{ $tour['icons_color'] }}"><img src="images/hostel.png" alt="house" title="Проживание включено"></span>
+                    <span class="icon-wrapper {{ $tour['icons_color'] }}">
+                        <img src="images/{{ $tour['icons_color'] == 'green' ? 'beach-chil' : 'escur' }}.png" alt="circle2" title="Экскурсионный тур">
+                    </span>
+                </div>
+            </div>
+            <div class="price">от {{ $tour['price'] }} РУБ</div>
+            <button class="tour-button">Выбрать</button>
+        </div>
+        @endforeach
+    </div>
+</div>
+
+<div id="bookingModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Бронирование тура</h2>
+        <p>Заполните форму</p>
+        <form id="bookingForm">
+            <input type="text" placeholder="Фамилия" required>
+            <input type="text" placeholder="Имя" required>
+            <input type="text" placeholder="Отчество">
+            <input type="text" placeholder="Серия паспорта" required>
+            <input type="text" placeholder="Номер паспорта" required>
+            <input type="text" placeholder="Кем выдан" required>
+            <input type="date" placeholder="Когда выдан" required>
+            <button class="book-button">Забронировать</button>
+            <button class="add-passenger-button">Добавить еще пассажира</button>
+        </form>
+    </div>
+</div>
+
+<script src="bookingscript.js"></script>
+
+
+
     </main>
 
     <footer>

@@ -11,24 +11,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <div class="name">TRALALELO TRALALA</div>
-            <nav>
-                <ul>
-                    <li><a href="{{ route('main') }}">Главная</a></li>
-                    <li><a href="{{ route('hottour') }}" class="active">Горящие туры</a></li>
-                    <li><a href="{{ route('tour') }}">Поиск туров</a></li>
-                    <li><a href="{{ route('about') }}">О нас</a></li>
-                    <li><a href="{{ route('contact') }}">Контакты</a></li>
-                </ul>
-            </nav>
+   <header>
+    <div class="header-container">
+        <div class="name">TRALALELO TRALALA</div>
+        <nav>
+            <ul>
+                <li><a href="{{ route('main') }}" class="active">Главная</a></li>
+                <li><a href="{{ route('hottour') }}">Горящие туры</a></li>
+                <li><a href="{{ route('tour') }}">Поиск туров</a></li>
+                <li><a href="{{ route('about') }}">О нас</a></li>
+                <li><a href="{{ route('contact') }}">Контакты</a></li>
+            </ul>
+        </nav>
+        
+        @auth
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="login-button" style="background: none; border: none; color: inherit; cursor: pointer; font: inherit; display: flex; align-items: center;">
+                    <img src="{{ asset('images/user.png') }}" alt="Выйти">
+                    Выйти ({{ Auth::user()->login }})
+                </button>
+            </form>
+        @else
             <a href="{{ route('login') }}" class="login-button">
                 <img src="{{ asset('images/user.png') }}" alt="Войти">
                 Войти
             </a>
-        </div>
-    </header>
+        @endauth
+    </div>
+</header>
 
     <section class="search-section">
         <h2>Горящие туры</h2>
@@ -94,6 +105,32 @@
                 <img src="{{ asset('images/search.png') }}" alt="Поиск">
             </a>
         </div>
+
+
+        <div class="container">
+    <div class="row">
+        @for($i = 0; $i < 6; $i++)
+        <div class="tour-card">
+            <img src="images/turkey.png" alt="Тур">
+            <div class="rating">⭐⭐⭐⭐☆</div>
+            <div class="title">Sunny Bay Hill</div>
+            <div class="country">Турция</div>
+            <div class="info">
+                20 сентября, 7 ночей
+                <br>
+                Из Москвы
+            </div>
+            <div class="price">
+                <span class="old-price">100 000 РУБ</span>
+                <span class="new-price">80 000 РУБ</span>
+            </div>
+        </div>
+        @endfor
+    </div>
+</div>
+
+
+
     </section>
 
     <footer>

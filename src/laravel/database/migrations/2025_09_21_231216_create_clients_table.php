@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('phone_number', 20);
             $table->string('email', 100)->unique();
             $table->date('registration_date');
-            $table->foreignId('ID_personnel')->constrained('personnel', 'ID_personnel');
+            $table->unsignedBigInteger('ID_personnel')->nullable()->constrained('personnel');   
             $table->string('login', 50)->unique();
             $table->string('password');
             $table->foreignId('ID_role')->constrained('roles', 'ID_role');

@@ -24,10 +24,31 @@
                     <li><a href="{{ route('contact') }}">Контакты</a></li>
                 </ul>
             </nav>
-           <a href="{{ route('login') }}" class="login-button">
-            <img src="{{ asset('images/user.png') }}" alt="Войти">
-                Войти
-            </a>
+            
+            <div style="display: flex; align-items: center; gap: 10px;">
+                @auth
+                    {{-- Проверка на админа (ID_role == 1) --}}
+                    @if(Auth::user()->ID_role == 1)
+                        <a href="{{ route('admin.dashboard') }}" class="login-button" style="margin-right: 10px;">
+                            <img src="{{ asset('images/key.png') }}" alt="Админка" style="width: 20px; height: 20px;">
+                            Админка
+                        </a>
+                    @endif
+                    
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="login-button" style="background: none; border: none; color: inherit; cursor: pointer; display: flex; align-items: center;">
+                            <img src="{{ asset('images/user.png') }}" alt="Выйти">
+                            Выйти ({{ Auth::user()->login }})
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="login-button">
+                        <img src="{{ asset('images/user.png') }}" alt="Войти">
+                        Войти
+                    </a>
+                @endauth
+            </div>
         </div>
     </header>
 
@@ -105,7 +126,7 @@
     <section class="about">
         <div class="about-text">
             <p>TRALALELO TRALALA - это доступные путешествия в любую точку мира!Мы предлагаем широкий выбор туров на любой бюджет, от экономичных вариантов до эксклюзивных предложений. Наша команда поможет вам подобрать идеальный тур, который будет соответствовать вашим возможностям и желаниям.</p>
-            <a href="{{ route('tour') }}" class="tour-button">Выбрать тур</a>
+            <a href="{{ route('tour') }}" class="tour-button-main">Выбрать тур</a>
         </div>
         <div class="about-image">
             <img src="{{ asset('images/главная 2.png') }}" alt="Описание">

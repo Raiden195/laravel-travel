@@ -17,15 +17,26 @@
                 <ul>
                     <li><a href="{{ route('main') }}">Главная</a></li>
                     <li><a href="{{ route('hottour') }}">Горящие туры</a></li>
-                    <li><a href="{{ route('tour') }}">Поиск туры</a></li>
+                    <li><a href="{{ route('tour') }}">Поиск туров</a></li>
                     <li><a href="{{ route('about') }}">О нас</a></li>
                     <li><a href="{{ route('contact') }}">Контакты</a></li>
                 </ul>
             </nav>
-            <a href="{{ route('login') }}" class="login-button">
-                <img src="{{ asset('images/user.png') }}" alt="Войти">
-                Войти
-            </a>
+            
+            @auth
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="login-button" style="background: none; border: none; color: inherit; cursor: pointer; font: inherit; display: flex; align-items: center;">
+                        <img src="{{ asset('images/user.png') }}" alt="Выйти">
+                        Выйти ({{ Auth::user()->login }})
+                    </button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="login-button">
+                    <img src="{{ asset('images/user.png') }}" alt="Войти">
+                    Войти
+                </a>
+            @endauth
         </div>
     </header>
     
@@ -36,12 +47,36 @@
             <div class="auth-form-section">
                 <div class="auth-form-wrapper">
                     <h1>Авторизация</h1>
-                    <form id="loginForm">
+                    
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    
+                    <form method="POST" action="{{ route('login.post') }}">
+                        @csrf
                         <div class="input-group">
-                            <input type="text" id="login" name="login" placeholder="Логин" required>
+                            <input type="text" id="login" name="login" placeholder="Логин или Email" required value="{{ old('login') }}">
+                            @error('login')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="input-group">
                             <input type="password" id="password" name="password" placeholder="Пароль" required>
+                            @error('password')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
                         </div>
                         <button type="submit" class="btn">Войти</button>
                     </form>
@@ -76,8 +111,6 @@
         </div>
     </footer>
 
-    <script src="{{ asset('js/script.js') }}"></script>
-      <script src="{{ asset('js/loginscript.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
