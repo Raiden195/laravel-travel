@@ -10,7 +10,7 @@ services:
     volumes:
       - ./src/laravel/:/var/www/html/laravel/:rw
     working_dir: /var/www/html/laravel/
-# Остальные строки не изменяйте.
+
   mysql:
     container_name: travel-mysql
     env_file:

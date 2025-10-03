@@ -8,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+ 
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <header>
@@ -64,7 +67,7 @@
                         </div>
                     @endif
                     
-                    <form method="POST" action="{{ route('login.post') }}">
+                    <form method="POST" action="{{ route('login.post') }}" id="authForm">
                         @csrf
                         <div class="input-group">
                             <input type="text" id="login" name="login" placeholder="Логин или Email" required value="{{ old('login') }}">
@@ -78,7 +81,16 @@
                                 <span class="error">{{ $message }}</span>
                             @enderror
                         </div>
-                        <button type="submit" class="btn">Войти</button>
+                        
+                      
+                        <div class="input-group">
+                            <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                            @error('g-recaptcha-response')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        
+                        <button type="submit" class="btn" id="submitBtn">Войти</button>
                     </form>
                     <div class="register-links">
                         <p>Еще нет аккаунта?</p>
@@ -114,6 +126,46 @@
     <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-   
+    
+    <!-- ДОБАВЛЕНО: JavaScript для проверки reCAPTCHA -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('authForm');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // Проверка reCAPTCHA перед отправкой формы
+            form.addEventListener('submit', function(e) {
+                const recaptchaResponse = grecaptcha.getResponse();
+                
+                if (recaptchaResponse.length === 0) {
+                    e.preventDefault();
+                    alert('Пожалуйста, подтвердите, что вы не робот!');
+                    return false;
+                }
+            });
+            
+            // Дополнительная валидация формы
+            const loginInput = document.getElementById('login');
+            const passwordInput = document.getElementById('password');
+            
+            function validateForm() {
+                if (loginInput.value.trim() === '' || passwordInput.value.trim() === '') {
+                    submitBtn.disabled = true;
+                    submitBtn.style.opacity = '0.6';
+                    return false;
+                } else {
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = '1';
+                    return true;
+                }
+            }
+            
+            loginInput.addEventListener('input', validateForm);
+            passwordInput.addEventListener('input', validateForm);
+            
+            // Инициализация проверки при загрузке
+            validateForm();
+        });
+    </script>
 </body>
 </html>

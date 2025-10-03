@@ -114,8 +114,8 @@ class AdminController extends Controller
             '5. Клиенты с бронированиями за последний месяц' => Client::whereHas('bookings', function($q) {
                 $q->whereBetween('booking_date', [now()->subMonth(), now()]);
             })->get(),
-            '6. Клиенты с суммой покупок > 1000' => Client::withSum('bookings', 'total_price')
-                ->having('bookings_sum_total_price', '>', 1000)
+            '6. Клиенты с суммой покупок > 1000' => Client::withSum('bookings', 'total_cost')
+                ->having('bookings_sum_total_cost', '>', 1000)
                 ->get(),
             '7. Доступные для бронирования туры' => Tour::where('available_slots', '>', 0)->get(),
             '8. Клиенты с забронированными турами' => Client::whereHas('bookings.tour.tourType')->get(),
