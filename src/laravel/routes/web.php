@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;  
 
+// Основные страницы
 Route::get('/', function () {
     return view('main');
 })->name('main');
@@ -24,12 +25,20 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
+// Маршруты аутентификации
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// Маршруты активации аккаунта
+Route::get('/activate/{token}', [AuthController::class, 'activateAccount'])->name('activate');
+Route::get('/activation-required', [AuthController::class, 'showActivationRequired'])->name('activation.required');
+Route::post('/activation/resend', [AuthController::class, 'resendActivationEmail'])->name('activation.resend');
+Route::post('/check-activation', [AuthController::class, 'checkActivationStatus'])->name('check.activation');
+
+// Админ-панель
 Route::prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/tables', [AdminController::class, 'tables'])->name('admin.tables');
@@ -39,3 +48,4 @@ Route::prefix('admin')->group(function () {
     Route::post('/quick-edit/{model}/{id}', [AdminController::class, 'quickEdit'])->name('admin.quick-edit');
     Route::delete('/quick-delete/{model}/{id}', [AdminController::class, 'quickDelete'])->name('admin.quick-delete');
 });
+

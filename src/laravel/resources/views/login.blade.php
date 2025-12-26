@@ -66,6 +66,33 @@
                             {{ session('success') }}
                         </div>
                     @endif
+
+@if(session('activation_required'))
+    <div class="alert alert-warning">
+        <strong>Требуется активация аккаунта!</strong><br>
+        Мы отправили письмо с ссылкой активации на адрес <strong>{{ session('client_email') }}</strong>.<br><br>
+        
+        <form method="POST" action="{{ route('activation.resend') }}" style="margin-top: 10px;">
+            @csrf
+            <input type="hidden" name="email" value="{{ session('client_email') }}">
+            <button type="submit" class="btn" style="background-color: #ffc107; color: #000; padding: 5px 15px; font-size: 14px;">
+                Отправить ссылку повторно
+            </button>
+        </form>
+    </div>
+@endif
+
+@if(session('success') && str_contains(session('success'), 'активирован'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if(session('error') && str_contains(session('error'), 'активации'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
                     
                     <form method="POST" action="{{ route('login.post') }}" id="authForm">
                         @csrf

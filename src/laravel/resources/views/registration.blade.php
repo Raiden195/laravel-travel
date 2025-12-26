@@ -57,6 +57,16 @@
                     </div>
                 @endif
                 
+
+
+@if(session('success') && (str_contains(session('success'), 'активации') || str_contains(session('success'), 'Проверьте')))
+    <div class="alert alert-info">
+        <strong>Регистрация успешна!</strong><br>
+        {{ session('success') }}<br><br>
+        <small>Проверьте папку "Спам", если не видите письмо.</small>
+    </div>
+@endif
+
                 <form method="POST" action="{{ route('register.post') }}">
                     @csrf
                     <div class="input-group">

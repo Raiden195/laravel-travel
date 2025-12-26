@@ -1330,20 +1330,20 @@ footer.auth-footer {
 
 .row {
     display: flex;
-    justify-content: center; /* Выравниваем карточки по центру */
-    flex-wrap: wrap; /* Позволяем карточкам переноситься на новую строку */
+    justify-content: center; 
+    flex-wrap: wrap; 
     margin-bottom: 20px;
 }
 
 .tour-card {
-    width: 517px; /* Примерная ширина, подгоните под макет */
+    width: 517px; 
     height: 510px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     padding: 15px;
     box-sizing: border-box;
-    text-align: left; /* Выравниваем текст по левому краю */
+    text-align: left; 
     margin-right: 20px;
     margin-bottom: 20px;
 }

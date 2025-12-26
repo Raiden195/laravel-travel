@@ -67,7 +67,7 @@ class AdminController extends Controller
         
         switch($table) {
             case 'clients':
-                $data = Client::with(['role', 'personnel'])->get();
+                //$data = Client::with(['role', 'personnel'])->get();
                 break;
             case 'tours':
                 $data = Tour::with(['country', 'city', 'tourType'])->get();
@@ -117,9 +117,9 @@ class AdminController extends Controller
             '6. Клиенты с суммой покупок > 1000' => Client::withSum('bookings', 'total_cost')
                 ->having('bookings_sum_total_cost', '>', 1000)
                 ->get(),
-            '7. Доступные для бронирования туры' => Tour::where('available_slots', '>', 0)->get(),
+            '7. Доступные для бронирования туры' => Tour::where('Available_seats', '>', 0)->get(),
             '8. Клиенты с забронированными турами' => Client::whereHas('bookings.tour.tourType')->get(),
-            '9. Туры со свободными местами' => Tour::where('available_slots', '>', 0)->get(),
+            '9. Туры со свободными местами' => Tour::where('Available_seats', '>', 0)->get(),
             '10. Все клиенты с общей суммой покупок' => Client::withSum('bookings', 'total_price')->get(),
         ];
 

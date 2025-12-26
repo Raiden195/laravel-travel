@@ -17,6 +17,12 @@ return new class extends Migration
             $table->string('login', 50)->unique();
             $table->string('password');
             $table->foreignId('ID_role')->constrained('roles', 'ID_role');
+            
+            // Добавляем поля для активации по email
+            $table->timestamp('email_verified_at')->nullable()->comment('Дата подтверждения email');
+            $table->boolean('is_active')->default(false)->comment('Статус активации аккаунта');
+            $table->string('email_verification_token', 100)->nullable()->comment('Токен для подтверждения email');
+            
             $table->timestamps();
         });
     }

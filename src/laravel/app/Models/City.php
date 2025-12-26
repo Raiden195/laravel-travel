@@ -28,3 +28,5 @@ class City extends Model
         return $this->hasMany(Tour::class, 'ID_city', 'ID_city');
     }
 }
+
+

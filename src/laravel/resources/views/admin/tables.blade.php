@@ -3,21 +3,6 @@
 <head>
     <title>Таблицы - Админка</title>
     <meta charset="UTF-8">
-    <style>
-        body { font-family: Arial; margin: 20px; background: #f0f0f0; }
-        .header { background: #333; color: white; padding: 15px; margin-bottom: 20px; }
-        .nav a { color: white; margin-right: 15px; text-decoration: none; }
-        .nav a:hover { text-decoration: underline; }
-        table { width: 100%; background: white; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background: #f5f5f5; }
-        .table-select { padding: 10px; font-size: 16px; margin-bottom: 20px; }
-        .add-form { background: white; padding: 20px; border-radius: 5px; }
-        .add-form input { margin: 5px; padding: 8px; width: 200px; }
-        .btn { padding: 5px 10px; margin: 2px; text-decoration: none; border-radius: 3px; }
-        .btn-danger { background: #dc3545; color: white; border: none; }
-        .btn-primary { background: #007bff; color: white; border: none; }
-    </style>
 </head>
 <body>
     <div class="header">

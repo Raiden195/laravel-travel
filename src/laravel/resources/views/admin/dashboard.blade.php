@@ -3,18 +3,7 @@
 <head>
     <title>Админка - TRALALELO TRALALA</title>
     <meta charset="UTF-8">
-    <style>
-        body { font-family: Arial; margin: 20px; background: #f0f0f0; }
-        .header { background: #333; color: white; padding: 15px; margin-bottom: 20px; }
-        .nav a { color: white; margin-right: 15px; text-decoration: none; }
-        .nav a:hover { text-decoration: underline; }
-        .stats { display: flex; gap: 15px; margin-bottom: 20px; }
-        .stat { background: white; padding: 15px; border-radius: 5px; flex: 1; text-align: center; }
-        .menu { background: white; padding: 20px; border-radius: 5px; }
-        .menu h3 { margin-top: 0; }
-        .menu a { display: block; padding: 10px; background: #007bff; color: white; margin: 5px 0; text-decoration: none; border-radius: 3px; }
-        .menu a:hover { background: #0056b3; }
-    </style>
+   
 </head>
 <body>
     <div class="header">
