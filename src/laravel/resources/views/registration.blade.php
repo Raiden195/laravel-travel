@@ -40,7 +40,7 @@
         </div>
     </header>
     
-    <img src="{{ asset('images/auth.png') }}" alt="Фон" class="background-image">
+    <img src="{{ asset('images/login.jpg') }}" alt="Фон" class="background-image">
     
     <div class="reg-container">
         <div class="reg-form-section">

@@ -44,7 +44,7 @@
     </header>
     
     <div class="auth-container-vse">
-        <img class="background-image" src="{{ asset('images/auth.png') }}" alt="Фон авторизации">
+        <img class="background-image" src="{{ asset('images/login.jpg') }}" alt="Фон авторизации">
         
         <div class="auth-container">
             <div class="auth-form-section">

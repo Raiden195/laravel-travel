@@ -49,3 +49,30 @@ Route::prefix('admin')->group(function () {
     Route::delete('/quick-delete/{model}/{id}', [AdminController::class, 'quickDelete'])->name('admin.quick-delete');
 });
 
+
+use App\Http\Controllers\ProfileController;
+
+// Личный кабинет
+Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
+    // Главная страница ЛК
+    Route::get('/', [ProfileController::class, 'index'])->name('index');
+    
+    // Профиль пользователя
+    Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+    Route::put('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
+    
+    // Избранное
+    Route::get('/favorites', [ProfileController::class, 'favorites'])->name('favorites');
+    
+    // Бронирования
+    Route::get('/booking', [ProfileController::class, 'booking'])->name('booking');
+    
+    // Настройки
+    Route::get('/settings', [ProfileController::class, 'settings'])->name('settings');
+    Route::put('/settings/update', [ProfileController::class, 'updateSettings'])->name('settings.update');
+    Route::put('/settings/password', [ProfileController::class, 'updatePassword'])->name('settings.password');
+    
+    // 2FA
+    Route::post('/settings/enable-2fa', [ProfileController::class, 'enableTwoFactor'])->name('settings.enable-2fa');
+    Route::post('/settings/disable-2fa', [ProfileController::class, 'disableTwoFactor'])->name('settings.disable-2fa');
+});

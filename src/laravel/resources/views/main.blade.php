@@ -9,10 +9,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-   <header>
+    <header>
         <div class="header-container">
             <div class="name">TRALALELO TRALALA</div>
             <nav>
@@ -29,20 +30,53 @@
                 @auth
                     {{-- Проверка на админа (ID_role == 1) --}}
                     @if(Auth::user()->ID_role == 1)
-                        <a href="{{ route('admin.dashboard') }}" class="login-button" style="margin-right: 10px;">
-                            <img src="{{ asset('images/key.png') }}" alt="Админка" style="width: 20px; height: 20px;">
+                        <a href="{{ route('admin.dashboard') }}" class="admin-button">
+                            <i class="fas fa-cog"></i>
                             Админка
                         </a>
                     @endif
                     
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="login-button" style="background: none; border: none; color: inherit; cursor: pointer; display: flex; align-items: center;">
-                            <img src="{{ asset('images/user.png') }}" alt="Выйти">
-                            Выйти ({{ Auth::user()->login }})
+                    <!-- Выпадающее меню пользователя -->
+                    <div class="user-dropdown">
+                        <button class="user-dropdown-toggle">
+                            <img src="{{ asset('images/user.png') }}" alt="Войти">
+                            {{ Auth::user()->login }}
+                            <i class="fas fa-chevron-down"></i>
                         </button>
-                    </form>
+                        
+                        <div class="user-dropdown-menu">
+                            <a href="{{ route('profile.index') }}" class="dropdown-item">
+                                <i class="fas fa-home"></i>
+                                Личный кабинет
+                            </a>
+                            <a href="{{ route('profile.profile') }}" class="dropdown-item">
+                                <i class="fas fa-user"></i>
+                                Мой профиль
+                            </a>
+                            <a href="{{ route('profile.favorites') }}" class="dropdown-item">
+                                <i class="fas fa-heart"></i>
+                                Избранное
+                            </a>
+                            <a href="{{ route('profile.booking') }}" class="dropdown-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                Мои бронирования
+                            </a>
+                            <a href="{{ route('profile.settings') }}" class="dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                Настройки
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <form action="{{ route('logout') }}" method="POST" class="dropdown-logout-form">
+                                @csrf
+                                <button type="submit" class="dropdown-item logout-btn">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Выйти
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 @else
+                    <!-- Для неавторизованных пользователей -->
                     <a href="{{ route('login') }}" class="login-button">
                         <img src="{{ asset('images/user.png') }}" alt="Войти">
                         Войти
@@ -52,12 +86,12 @@
         </div>
     </header>
 
-     <img class="home-img" src="{{ asset('images/главная.jpg') }}" alt="">
+    <img class="home-img" src="{{ asset('images/mainpage1.jpg') }}" alt="" width="1920" height="970">
     <section class="hero">
         <div class="hero-content">
-           <div class="conteer-home">
-            <h1 class="title-home">Один билет — <br> много эмоций</h1>
-            <p class="subtitle-home">Создай свою уникальную историю <br>с каждым новым путешествием</p>
+            <div class="conteer-home">
+                <h1 class="title-home">Один билет — <br> много эмоций</h1>
+                <p class="subtitle-home">Создай свою уникальную историю <br>с каждым новым путешествием</p>
             </div>
         </div>
         <div class="search-form">
@@ -125,7 +159,7 @@
 
     <section class="about">
         <div class="about-text">
-            <p>TRALALELO TRALALA - это доступные путешествия в любую точку мира!Мы предлагаем широкий выбор туров на любой бюджет, от экономичных вариантов до эксклюзивных предложений. Наша команда поможет вам подобрать идеальный тур, который будет соответствовать вашим возможностям и желаниям.</p>
+            <p>TRALALELO TRALALA - это доступные путешествия в любую точку мира! Мы предлагаем широкий выбор туров на любой бюджет, от экономичных вариантов до эксклюзивных предложений. Наша команда поможет вам подобрать идеальный тур, который будет соответствовать вашим возможностям и желаниям.</p>
             <a href="{{ route('tour') }}" class="tour-button-main">Выбрать тур</a>
         </div>
         <div class="about-image">
@@ -154,5 +188,6 @@
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <script src="{{ asset('js/datamaon.js') }}"></script>
+    <script src="{{ asset('js/user-menu.js') }}"></script>
 </body>
 </html>
