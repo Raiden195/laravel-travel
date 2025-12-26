@@ -113,8 +113,7 @@ class AuthController extends Controller
                 ->onlyInput('login');
         }
 
-        // КРИТИЧЕСКАЯ ОШИБКА БЫЛА ЗДЕСЬ!
-        // Используем правильную логику поиска пользователя
+     
         $loginInput = $request->login;
         
         // Определяем, это email или логин

@@ -132,10 +132,7 @@ class Client extends Authenticatable
     }
 
     
-    public function setPasswordAttribute($value): void
-    {
-        $this->attributes['password'] = bcrypt($value);
-    }
+   
 
    
     public function hasVerifiedEmail(): bool
