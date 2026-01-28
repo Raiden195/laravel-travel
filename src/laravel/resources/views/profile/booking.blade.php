@@ -184,7 +184,6 @@
     </style>
 </head>
 <body>
-    @include('partials.header')
     
     <div class="profile-container">
         <div class="profile-header">
@@ -281,6 +280,5 @@
         });
     </script>
     
-    @include('partials.footer')
 </body>
 </html>

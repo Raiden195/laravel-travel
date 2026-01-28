@@ -11,6 +11,7 @@
             max-width: 1000px;
             margin: 40px auto;
             padding: 0 20px;
+            min-height: 60vh;
         }
         
         .profile-header {
@@ -140,62 +141,185 @@
     </style>
 </head>
 <body>
-    @include('partials.header')
     
-    <div class="profile-container">
-        <div class="profile-header">
-            <h1 class="profile-title">Мой профиль</h1>
-            <a href="{{ route('profile.index') }}" class="btn-outline">
-                <i class="fas fa-arrow-left"></i> Назад
-            </a>
-        </div>
-        
-        @if(session('success'))
-            <div class="alert alert-success">
-                <i class="fas fa-check-circle"></i> {{ session('success') }}
+    <header>
+        <div class="header-container">
+            <div class="name">TRALALELO TRALALA</div>
+            <nav>
+                <ul>
+                    <li><a href="{{ route('main') }}">Главная</a></li>
+                    <li><a href="{{ route('hottour') }}">Горящие туры</a></li>
+                    <li><a href="{{ route('tour') }}">Поиск туров</a></li>
+                    <li><a href="{{ route('about') }}">О нас</a></li>
+                    <li><a href="{{ route('contact') }}">Контакты</a></li>
+                </ul>
+            </nav>
+            
+            <div style="display: flex; align-items: center; gap: 10px;">
+                @auth
+                    @if(Auth::user()->ID_role == 1)
+                        <a href="{{ route('admin.dashboard') }}" class="admin-button">
+                            <i class="fas fa-cog"></i>
+                            Админка
+                        </a>
+                    @endif
+                    
+                    <div class="user-dropdown">
+                        <button class="user-dropdown-toggle">
+                            <img src="{{ asset('images/user.png') }}" alt="Войти">
+                            {{ Auth::user()->login }}
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        
+                        <div class="user-dropdown-menu">
+                            <a href="{{ route('profile.index') }}" class="dropdown-item">
+                                <i class="fas fa-home"></i>
+                                Личный кабинет
+                            </a>
+                            <a href="{{ route('profile.profile') }}" class="dropdown-item">
+                                <i class="fas fa-user"></i>
+                                Мой профиль
+                            </a>
+                            <a href="{{ route('profile.favorites') }}" class="dropdown-item">
+                                <i class="fas fa-heart"></i>
+                                Избранное
+                            </a>
+                            <a href="{{ route('profile.booking') }}" class="dropdown-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                Мои бронирования
+                            </a>
+                            <a href="{{ route('profile.settings') }}" class="dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                Настройки
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <form action="{{ route('logout') }}" method="POST" class="dropdown-logout-form">
+                                @csrf
+                                <button type="submit" class="dropdown-item logout-btn">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Выйти
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @else
+                    <a href="{{ route('login') }}" class="login-button">
+                        <img src="{{ asset('images/user.png') }}" alt="Войти">
+                        Войти
+                    </a>
+                @endauth
             </div>
-        @endif
-        
-        <div class="profile-card">
-            <div class="avatar-section">
-                <div class="avatar">
-                    {{ strtoupper(substr(Auth::user()->login, 0, 1)) }}
-                </div>
-                <div class="avatar-info">
-                    <h3>{{ Auth::user()->name ?? Auth::user()->login }}</h3>
-                    <p>{{ Auth::user()->email ?? 'Email не указан' }}</p>
-                    <button class="btn-outline">
-                        <i class="fas fa-camera"></i> Сменить аватар
-                    </button>
-                </div>
+        </div>
+    </header>
+    
+    <!-- Основное содержимое -->
+    <main>
+        <div class="profile-container">
+            <div class="profile-header">
+                <h1 class="profile-title">Мой профиль</h1>
+                <a href="{{ route('profile.index') }}" class="btn-outline">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </a>
             </div>
             
-            <form action="{{ route('profile.profile.update') }}" method="POST">
-                @csrf
-                @method('PUT')
-                
-                <div class="form-group">
-                    <label class="form-label">Имя</label>
-                    <input type="text" name="name" class="form-control" value="{{ old('name', Auth::user()->name) }}" required>
+            @if(session('success'))
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> {{ session('success') }}
+                </div>
+            @endif
+            
+            <div class="profile-card">
+                <div class="avatar-section">
+                    <div class="avatar">
+                        {{ strtoupper(substr(Auth::user()->login, 0, 1)) }}
+                    </div>
+                    <div class="avatar-info">
+                        <h3>{{ Auth::user()->name ?? Auth::user()->login }}</h3>
+                        <p>{{ Auth::user()->email ?? 'Email не указан' }}</p>
+                        <button class="btn-outline">
+                            <i class="fas fa-camera"></i> Сменить аватар
+                        </button>
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" value="{{ old('email', Auth::user()->email) }}" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Телефон</label>
-                    <input type="tel" name="phone" class="form-control" value="{{ old('phone', Auth::user()->phone) }}">
-                </div>
-                
-                <button type="submit" class="btn-primary">
-                    <i class="fas fa-save"></i> Сохранить изменения
-                </button>
-            </form>
+                <form action="{{ route('profile.profile.update') }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    
+                    <div class="form-group">
+                        <label class="form-label">Имя</label>
+                        <input type="text" name="name" class="form-control" value="{{ old('name', Auth::user()->name) }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" value="{{ old('email', Auth::user()->email) }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Телефон</label>
+                        <input type="tel" name="phone" class="form-control" value="{{ old('phone', Auth::user()->phone) }}">
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Сохранить изменения
+                    </button>
+                </form>
+            </div>
         </div>
-    </div>
+    </main>
     
-    @include('partials.footer')
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">TRALALELO TRALALA</div>
+            <div class="footer-nav">
+                <a href="{{ route('about') }}">О нас</a>
+                <a href="{{ route('contact') }}">Контакты</a>
+                <a href="{{ route('tour') }}">Поиск туров</a>
+            </div>
+            <div class="social-icons">
+                <a href="#"><img src="{{ asset('images/vk.png') }}" alt="VK"></a>
+                <a href="#"><img src="{{ asset('images/tg.png') }}" alt="Telegram"></a>
+                <a href="#"><img src="{{ asset('images/insta.png') }}" alt="Instagram"></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script src="{{ asset('js/datamaon.js') }}"></script>
+    <script src="{{ asset('js/user-menu.js') }}"></script>
+    
+    <script>
+        // Мобильное меню
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+        
+        // Раскрывающееся меню пользователя
+        const userLink = document.querySelector('.user-link');
+        if (userLink) {
+            userLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                this.nextElementSibling.classList.toggle('active');
+            });
+        }
+        
+        // Закрытие меню при клике вне его
+        document.addEventListener('click', function(e) {
+            const userMenu = document.querySelector('.user-menu');
+            if (userMenu && !userMenu.contains(e.target)) {
+                userMenu.querySelector('.user-dropdown').classList.remove('active');
+            }
+            
+            if (!document.querySelector('.mobile-menu-btn').contains(e.target) && 
+                !document.querySelector('.nav-links').contains(e.target)) {
+                document.querySelector('.nav-links').classList.remove('active');
+            }
+        });
+    </script>
+    
 </body>
 </html>

@@ -123,9 +123,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         
-        // Здесь можно добавить логику для 2FA
-        // Например: $user->two_factor_secret = 'secret_key';
-        // $user->two_factor_enabled = true;
+       
         
         Session::flash('success', 'Двухфакторная аутентификация включена.');
         return redirect()->route('profile.settings');
@@ -136,9 +134,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         
-        // Здесь можно добавить логику для отключения 2FA
-        // Например: $user->two_factor_secret = null;
-        // $user->two_factor_enabled = false;
+
         
         Session::flash('success', 'Двухфакторная аутентификация отключена.');
         return redirect()->route('profile.settings');
